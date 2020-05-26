@@ -1,19 +1,19 @@
 <template>
   <v-app>
     <v-content>
-      <Layout/>
+      <MyDatePolls/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Layout from './components/Layout';
+import MyDatePolls from './views/MyDatePolls';
 
 export default {
   name: 'App',
 
   components: {
-    Layout,
+    MyDatePolls,
   },
 
   data: () => ({

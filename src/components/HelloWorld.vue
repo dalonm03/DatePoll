@@ -138,8 +138,8 @@
           href: 'https://vuetifyjs.com/components/api-explorer',
         },
         {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/layout/pre-defined',
+          text: 'Select a MyDatePolls',
+          href: 'https://vuetifyjs.com/MyDatePolls/pre-defined',
         },
         {
           text: 'Frequently Asked Questions',

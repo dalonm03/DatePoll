@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name:'CreateButton',
+  name:'Button',
   props:{
     object:String,
     icon:String

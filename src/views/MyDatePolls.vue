@@ -40,7 +40,7 @@
       >
         <v-row align="center" justify="center">
           <v-col class="text-center">
-            <CreateButton object="Date Poll" icon="mdi-calendar-plus" />
+            <Button object="Date Poll" icon="mdi-calendar-plus" />
           </v-col>
         </v-row>
         <v-row align="start" justify="space-between">
@@ -60,14 +60,14 @@
 </template>
 
 <script>
-  import CreateButton from './CreateButton';
-  import DatePollCard from './DatePollCard';
+  import Button from '../components/Button';
+  import DatePollCard from '../components/DatePollCard';
   export default {
     props: {
       source: String,
     },
     components:{
-      CreateButton,
+      Button,
       DatePollCard
     },
     data: () => ({
