@@ -40,7 +40,7 @@
       >
         <v-row align="center" justify="center">
           <v-col class="text-center">
-            <Button object="Date Poll" icon="mdi-calendar-plus" />
+            <DatePollForm title="Date Poll info"></DatePollForm>
           </v-col>
         </v-row>
         <v-row align="start" justify="space-between">
@@ -60,18 +60,18 @@
 </template>
 
 <script>
-  import Button from '../components/Button';
+  import DatePollForm from '../components/DatePollForm';
   import DatePollCard from '../components/DatePollCard';
   export default {
     props: {
       source: String,
     },
     components:{
-      Button,
-      DatePollCard
+      DatePollForm,
+      DatePollCard,
     },
     data: () => ({
-      drawer: null,
+      drawer: false,
     }),
   }
 </script>
