@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const sequelize = new Sequelize("datepoll", "root", "root", {
+const sequelize = new Sequelize("datepoll", "root", "", {
   host: "localhost",
   dialect: "mysql",
   define: {
