@@ -1,10 +1,26 @@
-var express = require('express');
-var app = express();
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const port = 3000;
+const Sequelize = require("sequelize");
+var cors = require("cors");
 
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(3000, function (){
-    console.log('Example app listening on port 3000!');
+const sequelize = new Sequelize("datepoll", "root", "root", {
+  host: "localhost",
+  dialect: "mysql",
+  define: {
+    timestamps: false
+  }
 });
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
