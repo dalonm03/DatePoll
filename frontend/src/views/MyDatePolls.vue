@@ -40,7 +40,7 @@
       >
         <v-row align="center" justify="center">
           <v-col class="text-center">
-            <DatePollForm title="Date Poll info"></DatePollForm>
+            <DatePollForm name="" description=""></DatePollForm>
           </v-col>
         </v-row>
         <v-row align="start" justify="space-between">
