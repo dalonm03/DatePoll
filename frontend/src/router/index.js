@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MyDatePolls from '../views/MyDatePolls.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/',
-    name: 'myDatePolls',
+    path: '/myDatePolls',
+    name: 'MyDatePolls',
     component: MyDatePolls
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  }
   
 ]
 
