@@ -7,7 +7,16 @@
   >
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-item-title class="headline mb-1">Cena de clase</v-list-item-title>
+        <v-list-item-title class="headline mb-1">Cena de clase
+            
+            <v-tooltip top>
+                <template v-slot:activator="{on}">
+                    <v-btn small absolute icon right color="green darken-4" v-on="on" class="ml-12"><v-icon>mdi-close</v-icon></v-btn>
+                </template>
+                <span>Delete Poll</span>
+            </v-tooltip>
+        </v-list-item-title>
+        
         <v-list-item-subtitle>Decidir que dia y a que hora vamos a tener la cena de clase</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -37,6 +46,7 @@
             </template>
             <span>Edit Poll</span>
         </v-tooltip>
+        
     </v-card-actions>
   </v-card>
 </template>>
@@ -48,5 +58,5 @@ export default {
 </script>
 
 <style scoped>
-    
+
 </style>
