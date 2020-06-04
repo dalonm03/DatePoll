@@ -31,12 +31,14 @@
                     prepend-icon="mdi-account"
                     type="text"
                     color="green darken-4"
+                    v-model="username"
                   ></v-text-field>
 
                   <v-text-field
                     id="password"
                     label="Password"
                     name="password"
+                    v-model="password"
                     prepend-icon="mdi-lock"
                     type="password"
                     color="green darken-4"
@@ -45,7 +47,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn dark color="green darken-4">Login</v-btn>
+                <v-btn dark color="green darken-4" @click="validateUsernameAndPassword">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -56,8 +58,22 @@
 
 <script>
   export default {
+    data:()=>({
+      username:'',
+      password:'',
+      userId:Number
+    }),
     props: {
       source: String,
     },
+    methods:{
+      correctLogin(){
+        this.$router.push({name: 'MyDatePolls', params:{userId:this.userId}});
+      },
+      validateUsernameAndPassword(){
+        this.correctLogin();
+      },
+      
+    }
   }
 </script>

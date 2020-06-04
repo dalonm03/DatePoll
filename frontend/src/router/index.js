@@ -15,8 +15,17 @@ Vue.use(VueRouter)
     path: '/login',
     name: 'Login',
     component: Login
-  }
-  
+  },
+  {
+    path: '/',
+    name: 'root',
+    component: Login
+  },
+  {
+    path: '/myDatePolls/*',
+    name: 'MyDatePolls',
+    component: MyDatePolls
+  },
 ]
 
 const router = new VueRouter({
