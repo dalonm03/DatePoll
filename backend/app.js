@@ -24,3 +24,95 @@ sequelize
   .catch(err => {
     console.error("Unable to connect to the database:", err);
   });
+
+
+  class encuesta extends Sequelize.Model {}
+  encuesta.init(
+  {
+    idencuesta: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    nombrencuesta: Sequelize.STRING,
+    fechainicio: Sequelize.DATE,
+    fechafinal: Sequelize.DATE,
+    descrpcion: Sequelize.STRING,
+    mes: Sequelize.INTEGER,
+    
+   
+  },
+  { sequelize, modelName: "encuesta" }
+);
+
+  class respuesta extends Sequelize.Model {}
+  respuesta.init(
+  {
+    idrespuesta: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    fecharespuesta: Sequelize.DATE,  
+    nombre: Sequelize.STRING,
+  
+  },
+  { sequelize, modelName: "respuesta" }
+);
+
+class usuarios extends Sequelize.Model {}
+usuarios.init(
+{
+  idusuarios: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+
+  nombre: Sequelize.STRING,
+  apellido1: Sequelize.STRING,
+  apellido2: Sequelize.STRING,
+  
+ 
+},
+{ sequelize, modelName: "usuarios" }
+);
+
+
+
+sequelize.sync();
+
+app.post("/getRespuesta", function(req, res) {
+  sequelize
+    .query(
+      "SELECT idrespuesta FROM respuesta",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(respuesta => {
+      res.send(respuesta);
+    });
+});
+
+
+app.post("/getUsuarios", function(req, res) {
+  sequelize
+    .query(
+      "SELECT idusuarios FROM usuarios",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(usuarios => {
+      res.send(usuarios);
+    });
+});
+
+
+app.post("/getEncuesta", function(req, res) {
+  sequelize
+    .query(
+      "SELECT idencuesta FROM encuesta",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(encuesta => {
+      res.send(encuesta);
+    });
+});
