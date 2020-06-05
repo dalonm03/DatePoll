@@ -63,7 +63,7 @@ sequelize
 class usuarios extends Sequelize.Model {}
 usuarios.init(
 {
-  idusuariosa: {
+  idusuarios: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
@@ -82,13 +82,37 @@ usuarios.init(
 
 sequelize.sync();
 
-app.post("/getContactos", function(req, res) {
+app.post("/getRespuesta", function(req, res) {
   sequelize
     .query(
-      "SELECT idrespuesta FROM contactos",
+      "SELECT idrespuesta FROM respuesta",
       { type: sequelize.QueryTypes.SELECT }
     )
-    .then(contacts => {
-      res.send(contacts);
+    .then(respuesta => {
+      res.send(respuesta);
+    });
+});
+
+
+app.post("/getUsuarios", function(req, res) {
+  sequelize
+    .query(
+      "SELECT idusuarios FROM usuarios",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(usuarios => {
+      res.send(usuarios);
+    });
+});
+
+
+app.post("/getEncuesta", function(req, res) {
+  sequelize
+    .query(
+      "SELECT idencuesta FROM encuesta",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(encuesta => {
+      res.send(encuesta);
     });
 });
