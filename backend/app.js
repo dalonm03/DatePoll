@@ -34,11 +34,22 @@ sequelize
       autoIncrement: true,
       primaryKey: true
     },
+
+    fk_idusuario: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'usuarios',
+        key: 'idusuario'
+      }
+    },
+    
     nombrencuesta: Sequelize.STRING,
+    fk_idusuario: Sequelize.INTEGER,
     fechainicio: Sequelize.DATE,
     fechafinal: Sequelize.DATE,
     descrpcion: Sequelize.STRING,
     mes: Sequelize.INTEGER,
+    abierto: Sequelize.BOOLEAN,
     
    
   },
@@ -55,6 +66,7 @@ sequelize
     },
     fecharespuesta: Sequelize.DATE,  
     nombre: Sequelize.STRING,
+    
   
   },
   { sequelize, modelName: "respuesta" }
@@ -68,6 +80,7 @@ usuarios.init(
     autoIncrement: true,
     primaryKey: true
   },
+  
 
   nombre: Sequelize.STRING,
   apellido1: Sequelize.STRING,
