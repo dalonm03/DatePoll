@@ -38,7 +38,7 @@ export default {
   }),
   methods:{
     exit(){
-      this.hideExit=true;
+      
       this.$router.push('/login');
     }
   },

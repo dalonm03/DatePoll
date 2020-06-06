@@ -23,7 +23,7 @@ Vue.use(VueRouter)
   },
   {
     path: '/myDatePolls/*',
-    name: 'MyDatePolls',
+    name: 'MyDatePollsEverything',
     component: MyDatePolls
   },
 ]

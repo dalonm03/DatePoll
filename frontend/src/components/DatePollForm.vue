@@ -56,7 +56,7 @@
                             <v-btn text color="green darken-4" v-on:click="reset">Cancel</v-btn>
                         </v-col>
                         <v-col cols="2">
-                            <v-btn text color="green darken-4" @click="$refs.dialog.save()">OK</v-btn>
+                            <v-btn text color="green darken-4" v-on:click="saveNewDatePoll">OK</v-btn>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+
 export default {
     props:{
         description:String,
@@ -86,12 +87,18 @@ export default {
     },
     
     methods:{
-        reset:function(){
+        reset(){
             this.nameLocal="";
             this.pickedMonth=new Date().toISOString().slice(0,7);
             this.nowDate=new Date().toISOString().slice(0,10);
             this.descriptionLocal="";
             this.showForm=false;
+        },
+        saveNewDatePoll:function(){
+            
+            let datePollCard={name:this.nameLocal,description:this.descriptionLocal,month:this.pickedMonth}
+            this.$emit('newDatePollCard',datePollCard)
+            this.reset();
         }
     },
     
