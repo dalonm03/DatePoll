@@ -95,37 +95,101 @@ usuarios.init(
 
 sequelize.sync();
 
-app.post("/getRespuesta", function(req, res) {
+
+app.post("/getencuestasusuario", function(req, res) {
   sequelize
     .query(
-      "SELECT idrespuesta FROM respuesta",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(respuesta => {
-      res.send(respuesta);
-    });
-});
-
-
-app.post("/getUsuarios", function(req, res) {
-  sequelize
-    .query(
-      "SELECT idusuarios FROM usuarios",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(usuarios => {
-      res.send(usuarios);
-    });
-});
-
-
-app.post("/getEncuesta", function(req, res) {
-  sequelize
-    .query(
-      "SELECT idencuesta FROM encuesta",
+      "SELECT idencuesta, nombrencuesta FROM encuesta WHERE (fk_idusuario = '" +
+        req.body.fk_idusuario+
+        "' )",
       { type: sequelize.QueryTypes.SELECT }
     )
     .then(encuesta => {
-      res.send(encuesta);
+        res.send(encuesta);
     });
 });
+
+
+
+app.post("/insertarencuesta", function(req, res) {
+  sequelize
+    .query(
+      "INSERT INTO encuesta(nombrencuesta,fechainicio,fechafinal,descripcion,mes,abierto) VALUES(nombrencuesta = '" +req.body.nombrencuesta+"'+fechainicio = '" +req.body.fechainicio+"'+fechafinal = '" +req.body.fechafinal+"'+descripcion = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"'+abierto = '" +req.body.abierto+"')",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(encuestainsert => {
+        res.send(encuestainsert);
+    });
+});
+
+app.post("/insertusuario", function(req, res) {
+  sequelize
+    .query(
+      "INSERT INTO usuarios(nombre,apellido1,apellido2) VALUES(nombre = '" +req.body.nombre+"'+apellido1 = '" +req.body.apellido1+"'+apellido2 = '" +req.body.apellido2+"')",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(usuarioinsert => {
+        res.send(usuarioinsert);
+    });
+});
+
+app.post("/insertrespuesta", function(req, res) {
+  sequelize
+    .query(
+      "INSERT INTO respuesta(nombre,fecharespuesta) VALUES(nombre = '" +req.body.nombre+"'+fecharespuesta = '" +req.body.fecharespuesta+"')",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(respuestainsert => {
+        res.send(respuestainsert);
+    });
+});
+
+app.post("/modificarencuesta", function(req, res) {
+  sequelize
+    .query(
+      "UPDATE encuesta SET nombre = '" +req.body.nombre+"'+descripcion = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"' WHERE (fk_idusuario = '" +
+      req.body.fk_idusuario+
+      "' )" ,
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(encuestamodif => {
+        res.send(encuestamodif);
+    });
+});
+
+
+app.post("/loginusuario", function(req, res) {
+  sequelize
+    .query(
+      "SELECT idusuario, nombre FROM usuarios WHERE (nombre = '" +
+        req.body.nombre +
+        "' AND password = '" +
+        req.body.password +
+        "' )",
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(users => {
+      if (users.length != 0) {
+        res.json(users);
+      } else {
+        res.send({ login: false });
+      }
+    });
+});
+
+
+app.post("/modificabierto", function(req, res) {
+  sequelize
+    .query(
+      "UPDATE encuesta SET abierto = '" +req.body.abierto+"')" ,
+      { type: sequelize.QueryTypes.SELECT }
+    )
+    .then(abiertomodif => {
+        res.send(abiertomodif);
+    });
+});
+
+
+
+
+
