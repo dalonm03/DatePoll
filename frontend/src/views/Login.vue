@@ -67,12 +67,47 @@
       source: String,
     },
     methods:{
-      correctLogin(){
-        this.$router.push({name: 'MyDatePolls', params:{userId:this.userId}});
-      },
-      validateUsernameAndPassword(){
-        this.correctLogin();
-      },
+      
+        
+    
+      validateUsernameAndPassword: function() {
+      console.log(location.host);
+
+        if (
+          this.username == null ||
+         this.username == "" ||
+         this.password == null ||
+          this.password == ""
+       ) {
+
+        alert("No deje campos vacíos");
+      } else {
+        var datos = {
+          nombUsuario: this.username,
+          password: this.password
+        };
+        this.$http.post("http://localhost:3000/loginUsuario", datos).then(
+          response => {
+            if(response.body != ""){
+
+
+                this.$router.push({name: 'MyDatePolls', params:{userId:response.body[0].idusuario}});
+                
+                
+            }
+              
+            else alert("Nombre o contraseña son incorrectos");
+          },
+          response => {
+            response.body != "0";
+            alert("Error al enviar los datos");
+          }
+        );
+      }
+    },
+    
+       
+
       
     }
   }

@@ -85,6 +85,7 @@ usuarios.init(
   nombre: Sequelize.STRING,
   apellido1: Sequelize.STRING,
   apellido2: Sequelize.STRING,
+  password: Sequelize.STRING,
   
  
 },
