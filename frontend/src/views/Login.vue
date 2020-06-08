@@ -58,6 +58,7 @@
 
 <script>
   const axios=require('axios')
+  const ip='192.168.1.13'
   export default {
     data:()=>({
       username:'',
@@ -88,7 +89,7 @@
           password: this.password
         };
         
-        axios.post('http://localhost:3000/login',datos)
+        axios.post('http://'+ip+':3000/login',datos)
         .then((response)=>{
           console.log(response.data[0].idusuario)
           console.log('Entro a cambiar la ruta ');
