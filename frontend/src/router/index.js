@@ -21,11 +21,7 @@ Vue.use(VueRouter)
     name: 'root',
     component: Login
   },
-  {
-    path: '/myDatePolls/*',
-    name: 'MyDatePollsEverything',
-    component: MyDatePolls
-  },
+  
 ]
 
 const router = new VueRouter({

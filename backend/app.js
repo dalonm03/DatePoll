@@ -160,9 +160,10 @@ app.post("/modificarencuesta", function(req, res) {
 
 
 app.post("/login", function(req, res) {
+  console.log('Login de usuario')
   sequelize
     .query(
-      "SELECT idusuario, nombre FROM usuarios WHERE (nombre = '" +
+      "SELECT idusuario,nombre FROM usuarios WHERE (nombre = '" +
         req.body.nombre +
         "' AND password = '" +
         req.body.password +
@@ -171,6 +172,7 @@ app.post("/login", function(req, res) {
     )
     .then(users => {
       if (users.length != 0) {
+        console.log('Encuentra')
         res.json(users);
       } else {
         res.send({ login: false });

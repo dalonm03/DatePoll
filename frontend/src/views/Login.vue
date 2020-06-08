@@ -84,16 +84,19 @@
         alert("No deje campos vacíos");
       } else {
         var datos = {
-          nombUsuario: this.username,
+          nombre: this.username,
           password: this.password
         };
         
         axios.post('http://localhost:3000/login',datos)
-        .then(function(response){
-          this.$router.push({name: 'MyDatePolls', params:{userId:response.body[0].idusuario}});
+        .then((response)=>{
+          console.log(response.data[0].idusuario)
+          console.log('Entro a cambiar la ruta ');
+          this.$router.push('/myDatePolls');
         })
         .catch(function(error){
-          console.log(error+'hola')
+          
+          console.log(error)
         });
         /*this.$http.post("http://localhost:3000/login", datos).then(
           response => {
