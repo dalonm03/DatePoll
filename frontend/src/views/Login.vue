@@ -57,6 +57,7 @@
 </template>
 
 <script>
+  const axios=require('axios')
   export default {
     data:()=>({
       username:'',
@@ -86,7 +87,15 @@
           nombUsuario: this.username,
           password: this.password
         };
-        this.$http.post("http://localhost:3000/loginUsuario", datos).then(
+        
+        axios.post('/login',datos)
+        .then(function(response){
+          this.$router.push({name: 'MyDatePolls', params:{userId:response.body[0].idusuario}});
+        })
+        .catch(function(error){
+          console.log(error)
+        });
+        /*this.$http.post("http://localhost:3000/login", datos).then(
           response => {
             if(response.body != ""){
 
@@ -102,7 +111,7 @@
             response.body != "0";
             alert("Error al enviar los datos");
           }
-        );
+        );*/
       }
     },
     
