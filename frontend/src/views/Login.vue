@@ -88,12 +88,12 @@
           password: this.password
         };
         
-        axios.post('/login',datos)
+        axios.post('http://localhost:3000/login',datos)
         .then(function(response){
           this.$router.push({name: 'MyDatePolls', params:{userId:response.body[0].idusuario}});
         })
         .catch(function(error){
-          console.log(error)
+          console.log(error+'hola')
         });
         /*this.$http.post("http://localhost:3000/login", datos).then(
           response => {

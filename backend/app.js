@@ -159,7 +159,7 @@ app.post("/modificarencuesta", function(req, res) {
 });
 
 
-app.post("/loginusuario", function(req, res) {
+app.post("/login", function(req, res) {
   sequelize
     .query(
       "SELECT idusuario, nombre FROM usuarios WHERE (nombre = '" +
@@ -190,7 +190,9 @@ app.post("/modificabierto", function(req, res) {
     });
 });
 
-
+app.listen(3000,function(){
+  console.log('Listening on port 3000')
+})
 
 
 
