@@ -83,7 +83,7 @@
     },
     data: () => ({
       drawer: false,
-      datePollCards:[{name:String,description:String,month:String}]
+      datePollCards:[]
     }),
     methods:{
       addNewDatePollCard(args){
