@@ -58,7 +58,7 @@
 
 <script>
   const axios=require('axios')
-  const ip='192.168.1.13'
+  const ip='localhost'
   export default {
     data:()=>({
       username:'',
@@ -99,23 +99,6 @@
           
           console.log(error)
         });
-        /*this.$http.post("http://localhost:3000/login", datos).then(
-          response => {
-            if(response.body != ""){
-
-
-                this.$router.push({name: 'MyDatePolls', params:{userId:response.body[0].idusuario}});
-                
-                
-            }
-              
-            else alert("Nombre o contraseña son incorrectos");
-          },
-          response => {
-            response.body != "0";
-            alert("Error al enviar los datos");
-          }
-        );*/
       }
     },
     

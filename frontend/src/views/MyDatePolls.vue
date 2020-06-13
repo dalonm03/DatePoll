@@ -13,9 +13,9 @@
 
           <v-container grid-list-lg>
             <v-layout row wrap>
-                <v-flex  lg3 v-for="(card, index) in datePollCards" v-bind:key="index" >
+                <v-flex  lg3 v-for="(card, index) in datePollCards" v-bind:key="index">
                     <v-hover>
-                      <v-card class="mx-auto" max-width="350" outlined hover >
+                      <v-card class="mx-auto" max-width="350" outlined hover>
                           <v-list-item three-line>
                             <v-list-item-content>
                             <v-list-item-title class="headline mx-1">{{card.name}}
@@ -72,14 +72,13 @@
 
 <script>
   import DatePollForm from '../components/DatePollForm';
- // import DatePollCard from '../components/DatePollCard';
+
   export default {
     props: {
-      source: String,
+      userId:Number,
     },
     components:{
       DatePollForm,
-  //  DatePollCard,
     },
     data: () => ({
       drawer: false,
