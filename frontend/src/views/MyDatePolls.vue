@@ -74,7 +74,7 @@
   import DatePollForm from '../components/DatePollForm';
  // import DatePollCard from '../components/DatePollCard';
   const axios=require('axios')
-  const ip='192.168.1.13'
+  const ip='localhost'
   export default {
     props: {
       source: String,
@@ -85,6 +85,10 @@
     },
     data: () => ({
       fk_idusuario:'',
+      nombrencuesta:'',
+      descripcion:'',
+      mes:'',
+      abierto:'',
       drawer: false,
       datePollCards:[]
     }),
@@ -92,7 +96,26 @@
 
        addNewDatePollCard(args){
         this.datePollCards.push(args)
-        console.log(args)
+         console.log(location.host);
+
+        var datos = {
+          nencuesta: args.nombrencuesta,
+          descripcionecuesta: args.descricpcion,
+          mesencuesta: args.mes,
+          abiertoencuesta: args.abierto,
+          idusuario: args.fk_idusuario,
+         
+        };
+        axios.post('http://'+ip+':3000/insertarencuesta',datos)
+        .then(()=>{
+         console.log("insertado con exito")
+          
+        })
+        .catch(function(error){
+          
+          console.log(error)
+        });
+        
       },
 
       AllPolls(){

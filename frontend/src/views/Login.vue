@@ -58,7 +58,7 @@
 
 <script>
   const axios=require('axios')
-  const ip='192.168.1.13'
+  const ip='localhost'
   export default {
     data:()=>({
       username:'',
