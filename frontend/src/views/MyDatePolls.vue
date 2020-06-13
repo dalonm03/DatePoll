@@ -129,7 +129,6 @@
         axios.post('http://'+ip+':3000/getencuestasusuario',datos)
         .then((response)=>{
           this.datePollCards.push(response)
-          
         })
         .catch(function(error){
           

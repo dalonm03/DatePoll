@@ -46,6 +46,44 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
+                <v-dialog v-model="showForm" max-width="500px">
+                  <template v-slot:activator="{on}">
+                    <span class="register" v-on="on">Don't have a DatePoll account? Register</span>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                        <span class="headline mb-1">Register</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="6">
+                                        <v-text-field color="green darken-4" label="Username" v-model="registerName"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-text-field label="Password"  color="green darken-4" v-model="registerPassword"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6">
+                                    <v-text-field label="Repeat password"  color="green darken-4" v-model="registerRepeatPassword"></v-text-field>
+                                </v-col>
+                            </v-row>
+                                
+                            <v-row justify="end">
+                                <v-col cols="2">
+                                    <v-btn text color="green darken-4" v-on:click="reset">Cancel</v-btn>
+                                </v-col>
+                                <v-col cols="2">
+                                    <v-btn text color="green darken-4" v-on:click="saveNewUser">OK</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
                 <v-spacer></v-spacer>
                 <v-btn dark color="green darken-4" @click="validateUsernameAndPassword">Login</v-btn>
               </v-card-actions>
@@ -63,15 +101,17 @@
     data:()=>({
       username:'',
       password:'',
-      userId:Number
+      userId:Number,
+      showForm:false,
+      registerName:'',
+      registerPassword:'',
+      registerRepeatPassword:'',
     }),
     props: {
       source: String,
     },
     methods:{
       
-        
-    
       validateUsernameAndPassword: function() {
       console.log(location.host);
 
@@ -82,7 +122,7 @@
           this.password == ""
        ) {
 
-        alert("No deje campos vacíos");
+        alert("Please fill all fields");
       } else {
         var datos = {
           nombre: this.username,
@@ -103,8 +143,55 @@
     },
     
        
+      reset:function(){
+        this.registerName='';
+        this.registerPassword='';
+        this.registerRepeatPassword='';
+        this.showForm=false;
+      },
 
+      saveNewUser:function(){
+        if(this.registerName==''||this.registerPassword==''||this.registerRepeatPassword==''){
+          alert("Please fill all fields.");
+        }else{
+          if(this.registerPassword!=this.registerRepeatPassword){
+            alert("The passwords don't match.")
+          }else{
+            axios.post('http://'+ip+':3000/getNumberOfUsersWithName',{name:this.registerName})
+            .then((response)=>{
+              console.log(response.data.count)
+              if(response.data.count>0){
+                alert("That username is already in use.")
+              }else{
+                if(response.data.count==0){
+                  let nuevoUsuario={
+                    name:this.registerName,
+                    password:this.registerPassword
+                  }
+                  axios.post('http://'+ip+':3000/insertUser',nuevoUsuario)
+                  .then(()=>{
+                    console.log('Insert of user '+this.username+' was succesful');
+                  })
+                  .catch(function(error){
+                    console.log(error)
+                  });
+                  this.reset()
+                }
+              }
+            })
+          }
+        }
+      }
       
     }
   }
 </script>
+
+<style scoped>
+.register{
+  font-size: small;
+  color:green;
+  text-decoration:underline;
+  cursor: pointer;
+}
+</style>

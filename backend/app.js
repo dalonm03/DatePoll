@@ -26,95 +26,104 @@ sequelize
   });
 
 
-  class encuesta extends Sequelize.Model {}
-  encuesta.init(
+  class Poll extends Sequelize.Model {}
+  Poll.init(
   {
-    idencuesta: {
+    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-
-    fk_idusuario: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'usuarios',
-        key: 'idusuario'
-      }
-    },
     
-    nombrencuesta: Sequelize.STRING,
-    fk_idusuario: Sequelize.INTEGER,
-    fechainicio: Sequelize.DATE,
-    fechafinal: Sequelize.DATE,
-    descrpcion: Sequelize.STRING,
-    mes: Sequelize.INTEGER,
-    abierto: Sequelize.BOOLEAN,
+    name: Sequelize.STRING,
+    description: Sequelize.STRING,
+    month: Sequelize.INTEGER,
+    isOpen: Sequelize.BOOLEAN,
     
    
   },
-  { sequelize, modelName: "encuesta" }
+  { sequelize, modelName: "poll" }
 );
 
-  class respuesta extends Sequelize.Model {}
-  respuesta.init(
+  class Vote extends Sequelize.Model {}
+  Vote.init(
   {
-    idrespuesta: {
+    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    fecharespuesta: Sequelize.DATE,  
-    nombre: Sequelize.STRING,
+
+    date: Sequelize.DATE,  
+    voterName: Sequelize.STRING,
     
   
   },
-  { sequelize, modelName: "respuesta" }
+  { sequelize, modelName: "vote" }
 );
 
-class usuarios extends Sequelize.Model {}
-usuarios.init(
+class User extends Sequelize.Model {}
+User.init(
 {
-  idusuarios: {
+  id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   
 
-  nombre: Sequelize.STRING,
-  apellido1: Sequelize.STRING,
-  apellido2: Sequelize.STRING,
+  name:{ 
+    type:Sequelize.STRING,
+    unique:true,
+    allowNull:false
+  },
   password: Sequelize.STRING,
   
  
 },
-{ sequelize, modelName: "usuarios" }
+{ sequelize, modelName: "user" }
 );
 
+User.hasMany(Poll);
+Poll.hasMany(Vote);
 
+User.create({name:'jonatan',password:'123456'})
 
 sequelize.sync();
 
 
-app.post("/getencuestasusuario", function(req, res) {
+app.post("/getUserPolls", function(req, res) {
   sequelize
     .query(
-      "SELECT idencuesta, nombrencuesta, descripcion, mes, abierto FROM encuesta WHERE (fk_idusuario = '" +
-        req.body.fk_idusuario+"' )",
+      "SELECT id, name, description, month, isOpen FROM polls WHERE (userId = '" +
+        req.body.userId+"' )",
       { type: sequelize.QueryTypes.SELECT }
     )
-    .then(encuesta => {
-        res.send(encuesta);
+    .then(polls => {
+        res.send(polls);
     });
 });
 
 
 
-app.post("/insertarencuesta", function(req, res) {
+app.post("/getNumberOfUsersWithName",function(req,res){
+
+  User.findAndCountAll({
+    where:{
+      name:req.body.name
+    }
+  })
+  .then(result=>{
+    console.log(result.count)
+    res.send(result)
+  })
+
+});
+
+app.post("/insertPoll", function(req, res) {
   sequelize
     .query(
-      "INSERT INTO encuesta(nombrencuesta,descripcion,mes,abierto,fk_idusuario) VALUES(nombrencuesta = '" +req.body.nombrencuesta+"'+fechainicio = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"'+abierto = '" +req.body.abierto+"')",
+      "INSERT INTO polls(nombrencuesta,descripcion,mes,abierto,fk_idusuario) VALUES(nombrencuesta = '" +req.body.nombrencuesta+"'+fechainicio = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"'+abierto = '" +req.body.abierto+"')",
       { type: sequelize.QueryTypes.SELECT }
     )
     .then(encuestainsert => {
@@ -122,15 +131,8 @@ app.post("/insertarencuesta", function(req, res) {
     });
 });
 
-app.post("/insertusuario", function(req, res) {
-  sequelize
-    .query(
-      "INSERT INTO usuarios(nombre,apellido1,apellido2) VALUES(nombre = '" +req.body.nombre+"'+apellido1 = '" +req.body.apellido1+"'+apellido2 = '" +req.body.apellido2+"')",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(usuarioinsert => {
-        res.send(usuarioinsert);
-    });
+app.post("/insertUser", function(req, res) {
+  User.create(req.body)
 });
 
 app.post("/insertrespuesta", function(req, res) {
