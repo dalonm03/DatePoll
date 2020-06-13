@@ -73,6 +73,8 @@
 <script>
   import DatePollForm from '../components/DatePollForm';
  // import DatePollCard from '../components/DatePollCard';
+  const axios=require('axios')
+  const ip='192.168.1.13'
   export default {
     props: {
       source: String,
@@ -82,13 +84,35 @@
   //  DatePollCard,
     },
     data: () => ({
+      fk_idusuario:'',
       drawer: false,
       datePollCards:[]
     }),
     methods:{
-      addNewDatePollCard(args){
+
+       addNewDatePollCard(args){
         this.datePollCards.push(args)
         console.log(args)
+      },
+
+      AllPolls(){
+        console.log(location.host);
+
+        var datos = {
+          idusuario: this.fk_idusuario,
+         
+        };
+        axios.post('http://'+ip+':3000/getencuestasusuario',datos)
+        .then((response)=>{
+          this.datePollCards.push(response)
+          
+        })
+        .catch(function(error){
+          
+          console.log(error)
+        });
+        
+       
       }
     }
   }

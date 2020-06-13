@@ -100,9 +100,8 @@ sequelize.sync();
 app.post("/getencuestasusuario", function(req, res) {
   sequelize
     .query(
-      "SELECT idencuesta, nombrencuesta FROM encuesta WHERE (fk_idusuario = '" +
-        req.body.fk_idusuario+
-        "' )",
+      "SELECT idencuesta, nombrencuesta, descripcion, mes, abierto FROM encuesta WHERE (fk_idusuario = '" +
+        req.body.fk_idusuario+"' )",
       { type: sequelize.QueryTypes.SELECT }
     )
     .then(encuesta => {
@@ -115,7 +114,7 @@ app.post("/getencuestasusuario", function(req, res) {
 app.post("/insertarencuesta", function(req, res) {
   sequelize
     .query(
-      "INSERT INTO encuesta(nombrencuesta,fechainicio,fechafinal,descripcion,mes,abierto,fk_idusuario) VALUES(nombrencuesta = '" +req.body.nombrencuesta+"'+fechainicio = '" +req.body.fechainicio+"'+fechafinal = '" +req.body.fechafinal+"'+descripcion = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"'+abierto = '" +req.body.abierto+"')",
+      "INSERT INTO encuesta(nombrencuesta,descripcion,mes,abierto,fk_idusuario) VALUES(nombrencuesta = '" +req.body.nombrencuesta+"'+fechainicio = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"'+abierto = '" +req.body.abierto+"')",
       { type: sequelize.QueryTypes.SELECT }
     )
     .then(encuestainsert => {
