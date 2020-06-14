@@ -92,15 +92,18 @@ sequelize.sync();
 
 
 app.post("/getUserPolls", function(req, res) {
-  sequelize
-    .query(
-      "SELECT id, name, description, month, isOpen FROM polls WHERE (userId = '" +
-        req.body.userId+"' )",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(polls => {
-        res.send(polls);
-    });
+  console.log(res.body)
+  Poll.findAll({
+    where:{
+      userId:req.body.userId
+    }
+  })
+  .then(result=>{
+    res.send(result)
+  })
+  .catch(function(error){
+    console.log(error)
+  })
 });
 
 
@@ -113,7 +116,6 @@ app.post("/getNumberOfUsersWithName",function(req,res){
     }
   })
   .then(result=>{
-    console.log(result.count)
     res.send(result)
   })
   .catch(function(error){

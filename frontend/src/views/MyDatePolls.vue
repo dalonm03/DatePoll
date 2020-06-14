@@ -77,7 +77,6 @@
   const ip='localhost'
   export default {
     props: {
-
       userId:Number,
     },
     components:{
@@ -110,9 +109,23 @@
         });
         
       },
+    },
 
+    mounted:function(){
+      let data={
+        userId:this.userId
+      }
+      axios.post('http://'+ip+':3000/getUserPolls',data)
+      .then((response)=>{
+        
+        this.datePollCards=response.data;
+      })
+      .catch(function(error){
+        console.log(error)
+      });
       
     }
+
   }
 </script>
 

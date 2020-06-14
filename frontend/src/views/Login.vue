@@ -113,7 +113,6 @@
     methods:{
       
       validateUsernameAndPassword: function() {
-      console.log(location.host);
 
         if (
           this.username == null ||
@@ -131,8 +130,6 @@
         
         axios.post('http://'+ip+':3000/login',datos)
         .then((response)=>{
-          console.log(response.data[0].id)
-          console.log('Entro a cambiar la ruta ');
           this.$store.commit('changeExitHidden',true)
           this.$router.push({name:'MyDatePolls',params:{userId:response.data[0].id}});
         })
