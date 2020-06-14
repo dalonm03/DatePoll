@@ -37,7 +37,7 @@ sequelize
     
     name: Sequelize.STRING,
     description: Sequelize.STRING,
-    month: Sequelize.INTEGER,
+    month: Sequelize.STRING,
     isOpen: Sequelize.BOOLEAN,
     
    
@@ -87,7 +87,6 @@ User.init(
 User.hasMany(Poll);
 Poll.hasMany(Vote);
 
-User.create({name:'jonatan',password:'123456'})
 
 sequelize.sync();
 
@@ -117,18 +116,14 @@ app.post("/getNumberOfUsersWithName",function(req,res){
     console.log(result.count)
     res.send(result)
   })
+  .catch(function(error){
+          console.log(error)
+  });
 
 });
 
 app.post("/insertPoll", function(req, res) {
-  sequelize
-    .query(
-      "INSERT INTO polls(nombrencuesta,descripcion,mes,abierto,fk_idusuario) VALUES(nombrencuesta = '" +req.body.nombrencuesta+"'+fechainicio = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"'+abierto = '" +req.body.abierto+"')",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(encuestainsert => {
-        res.send(encuestainsert);
-    });
+  Poll.create(req.body)
 });
 
 app.post("/insertUser", function(req, res) {
@@ -161,24 +156,19 @@ app.post("/modificarencuesta", function(req, res) {
 
 
 app.post("/login", function(req, res) {
-  console.log('Login de usuario')
-  sequelize
-    .query(
-      "SELECT idusuario,nombre FROM usuarios WHERE (nombre = '" +
-        req.body.nombre +
-        "' AND password = '" +
-        req.body.password +
-        "' )",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(users => {
-      if (users.length != 0) {
-        console.log('Encuentra')
-        res.json(users);
-      } else {
-        res.send({ login: false });
-      }
-    });
+  User.findAll({
+    where:{
+      name:req.body.name,
+      password:req.body.password
+    }
+  })
+  .then(result=>{
+    res.send(result)
+  })
+  .catch(function(error){
+          
+    console.log(error)
+  });
 });
 
 

@@ -7,9 +7,10 @@ Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/myDatePolls',
+    path: '/myDatePolls/:userId',
     name: 'MyDatePolls',
-    component: MyDatePolls
+    component: MyDatePolls,
+    props:true
   },
   {
     path: '/login',

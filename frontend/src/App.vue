@@ -9,7 +9,7 @@
       <v-toolbar-title>Date Poll
         <v-icon>mdi-calendar-multiple-check</v-icon>
       </v-toolbar-title>
-      <v-btn icon absolute right v-if="!hideExit" @click="exit"><v-icon>mdi-exit-run</v-icon></v-btn>
+      <v-btn icon absolute right v-if="$store.state.exitHidden" @click="exit"><v-icon>mdi-exit-run</v-icon></v-btn>
     </v-app-bar>
     <v-content>
       <router-view/>
@@ -25,7 +25,6 @@
 
 <script>
 
-
 export default {
   name: 'App',
 
@@ -34,21 +33,16 @@ export default {
   },
 
   data: () => ({
-    hideExit:true
+    
   }),
   methods:{
     exit(){
-      
-      this.$router.push('/login');
-    }
-  },
-  watch:{
-    $route:function(){
-      if(!(this.$router.path==='/login')){
-        this.hideExit=false;
-        
+      if(this.$router.currentRoute.name!='Login'){
+        this.$router.push('/login');
+        this.$store.commit('changeExitHidden',false)
       }
     }
-  }
+  },
+
 };
 </script>

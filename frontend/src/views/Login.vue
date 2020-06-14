@@ -63,12 +63,12 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="6">
-                                    <v-text-field label="Password"  color="green darken-4" v-model="registerPassword"></v-text-field>
+                                    <v-text-field label="Password" type="password" color="green darken-4" v-model="registerPassword"></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="6">
-                                    <v-text-field label="Repeat password"  color="green darken-4" v-model="registerRepeatPassword"></v-text-field>
+                                    <v-text-field label="Repeat password" type="password" color="green darken-4" v-model="registerRepeatPassword"></v-text-field>
                                 </v-col>
                             </v-row>
                                 
@@ -125,19 +125,20 @@
         alert("Please fill all fields");
       } else {
         var datos = {
-          nombre: this.username,
+          name: this.username,
           password: this.password
         };
         
         axios.post('http://'+ip+':3000/login',datos)
         .then((response)=>{
-          console.log(response.data[0].idusuario)
+          console.log(response.data[0].id)
           console.log('Entro a cambiar la ruta ');
-          this.$router.push('/myDatePolls');
+          this.$store.commit('changeExitHidden',true)
+          this.$router.push({name:'MyDatePolls',params:{userId:response.data[0].id}});
         })
         .catch(function(error){
-          
-          console.log(error)
+          alert('Incorrect username or password');
+          console.log(error);
         });
       }
     },

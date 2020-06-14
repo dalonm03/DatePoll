@@ -85,58 +85,33 @@
 
     },
     data: () => ({
-      fk_idusuario:'',
-      nombrencuesta:'',
-      descripcion:'',
-      mes:'',
-      abierto:'',
-      drawer: false,
       datePollCards:[]
     }),
     methods:{
 
-       addNewDatePollCard(args){
-        this.datePollCards.push(args)
-         console.log(location.host);
+       addNewDatePollCard(card){
+        this.datePollCards.push(card)
+        
 
-        var datos = {
-          nencuesta: args.nombrencuesta,
-          descripcionecuesta: args.descricpcion,
-          mesencuesta: args.mes,
-          abiertoencuesta: args.abierto,
-          idusuario: args.fk_idusuario,
+        var newPoll = {
+          name: card.name,
+          description: card.description,
+          month: card.month,
+          isOpen:true,
+          userId:this.userId,
          
         };
-        axios.post('http://'+ip+':3000/insertarencuesta',datos)
+        axios.post('http://'+ip+':3000/insertPoll',newPoll)
         .then(()=>{
-         console.log("insertado con exito")
-          
+         console.log("New poll inserted succesfully")
         })
         .catch(function(error){
-          
           console.log(error)
         });
         
       },
 
-      AllPolls(){
-        console.log(location.host);
-
-        var datos = {
-          idusuario: this.fk_idusuario,
-         
-        };
-        axios.post('http://'+ip+':3000/getencuestasusuario',datos)
-        .then((response)=>{
-          this.datePollCards.push(response)
-        })
-        .catch(function(error){
-          
-          console.log(error)
-        });
-        
-       
-      }
+      
     }
   }
 </script>
