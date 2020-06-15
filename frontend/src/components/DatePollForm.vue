@@ -96,7 +96,7 @@ export default {
         },
         saveNewDatePoll:function(){
             
-            let datePollCard={name:this.nameLocal,description:this.descriptionLocal,month:this.pickedMonth}
+            let datePollCard={id:-1,name:this.nameLocal,description:this.descriptionLocal,month:this.pickedMonth,isOpen:true}
             this.$emit('newDatePollCard',datePollCard)
             this.reset();
         }

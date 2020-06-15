@@ -21,7 +21,7 @@
                             <v-list-item-title class="headline mx-1">{{card.name}}
                                 <v-tooltip top>
                                     <template v-slot:activator="{on}">
-                                        <v-btn small absolute icon right color="green darken-4" v-on="on" class="ml-12"><v-icon>mdi-close</v-icon></v-btn>
+                                        <v-btn small absolute icon right color="green darken-4" @click="deleteDatePollCard(card)" v-on="on" class="ml-12"><v-icon>mdi-close</v-icon></v-btn>
                                     </template>
                                     <span>Delete Poll</span>
                                 </v-tooltip>
@@ -89,9 +89,9 @@
     methods:{
 
        addNewDatePollCard(card){
-        this.datePollCards.push(card)
         
-
+        
+        console.log(this.datePollCards)
         var newPoll = {
           name: card.name,
           description: card.description,
@@ -101,14 +101,27 @@
          
         };
         axios.post('http://'+ip+':3000/insertPoll',newPoll)
-        .then(()=>{
+        .then((result)=>{
          console.log("New poll inserted succesfully")
+         card.id=result.data.id;
+         this.datePollCards.push(card)
         })
         .catch(function(error){
           console.log(error)
         });
         
       },
+
+      deleteDatePollCard(card){
+        let index=this.datePollCards.indexOf(card);
+        if(index>-1){
+          let data={id:card.id}
+          axios.post('http://'+ip+':3000/deletePoll',data)
+          this.datePollCards.splice(index,1);
+        }
+
+      }
+
     },
 
     mounted:function(){
@@ -119,6 +132,7 @@
       .then((response)=>{
         
         this.datePollCards=response.data;
+        console.log(this.datePollCards)
       })
       .catch(function(error){
         console.log(error)

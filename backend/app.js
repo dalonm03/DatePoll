@@ -126,6 +126,19 @@ app.post("/getNumberOfUsersWithName",function(req,res){
 
 app.post("/insertPoll", function(req, res) {
   Poll.create(req.body)
+  .then(function(poll){
+    res.send({id:poll.id})
+  });
+});
+
+app.post("/deletePoll",function(req,res){ //para borrar una poll primero habrá que borrar todos los votes asociados a esa poll
+
+  Poll.destroy({
+    where:{
+      id:req.body.id
+    }
+  })
+
 });
 
 app.post("/insertUser", function(req, res) {
