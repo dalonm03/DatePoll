@@ -145,18 +145,11 @@ app.post("/insertUser", function(req, res) {
   User.create(req.body)
 });
 
-app.post("/insertrespuesta", function(req, res) {
-  sequelize
-    .query(
-      "INSERT INTO respuesta(nombre,fecharespuesta) VALUES(nombre = '" +req.body.nombre+"'+fecharespuesta = '" +req.body.fecharespuesta+"')",
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(respuestainsert => {
-        res.send(respuestainsert);
-    });
+app.post("/submitVote", function(req, res) {
+  Vote.create(req.body);
 });
 
-app.post("/modificarencuesta", function(req, res) {
+app.post("/updatePoll", function(req, res) {
   console.log(req.body);
   Poll.update({ name: req.body.name, description: req.body.description,  month:req.body.month}, {
     where: {

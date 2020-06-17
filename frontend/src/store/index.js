@@ -5,11 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    exitHidden:false
+    exitVisible:false
   },
   mutations: {
-    changeExitHidden(state,hide){
-      state.exitHidden=hide
+    changeExitVisible(state,visible){
+      state.exitVisible=visible
     }
   },
   actions: {

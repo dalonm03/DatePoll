@@ -5,9 +5,8 @@
     <v-dialog ref="dialog" max-width="600px" v-model="showForm">
         <template v-slot:activator="{on}">
             <v-btn icon right color="green darken-4" v-on="on"><v-icon>mdi-calendar-edit</v-icon></v-btn>
-                </template>
+        </template>
         <v-card>
-
             <v-card-title>
                 <span class="headline mb-1">Date Poll Info</span>
             </v-card-title>

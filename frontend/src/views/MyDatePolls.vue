@@ -46,11 +46,16 @@
                           </v-tooltip>
                           <v-tooltip bottom>
                             <template v-slot:activator="{on}">
-                                <v-btn icon color="green darken-4" v-on="on"><v-icon>mdi-vote</v-icon></v-btn>
+                                <v-btn icon color="green darken-4" @click="vote(card)" v-on="on"><v-icon>mdi-vote</v-icon></v-btn>
                             </template>
                             <span>Vote</span>
                           </v-tooltip>
-                          <DatePollEdit :card="card" v-on:editDatePollCard="updateDatePollCard"></DatePollEdit>
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{on}">
+                              <DatePollEdit :card="card" v-on="on" v-on:editDatePollCard="updateDatePollCard"></DatePollEdit>
+                            </template>
+                            <span>Edit Poll</span>
+                          </v-tooltip>
                         </v-card-actions>
 
 
@@ -101,7 +106,7 @@
         };
         axios.post('http://'+ip+':3000/insertPoll',newPoll)
         .then((result)=>{
-         console.log("New poll inserted succesfully")
+         console.log("New poll inserted succesfully");
          card.id=result.data.id;
          this.datePollCards.push(card)
         })
@@ -116,9 +121,9 @@
         
         
         console.log(card)
-        axios.post('http://'+ip+':3000/modificarencuesta',card)
+        axios.post('http://'+ip+':3000/updatePoll',card)
         .then(()=>{
-         console.log("New poll updated succesfully")
+         console.log("New poll updated succesfully");
         })
         .catch(function(error){
           console.log(error)
@@ -135,11 +140,16 @@
           this.datePollCards.splice(index,1);
         }
 
+      },
+
+      vote(card){
+        this.$router.push({name:'Vote',params:{card:card}});
       }
 
     },
 
     mounted:function(){
+      this.$store.commit('changeExitVisible',true)
       let data={
         userId:this.userId
       }

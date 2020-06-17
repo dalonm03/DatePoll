@@ -130,7 +130,7 @@
         
         axios.post('http://'+ip+':3000/login',datos)
         .then((response)=>{
-          this.$store.commit('changeExitHidden',true)
+          this.$store.commit('changeExitVisible',true)
           this.$router.push({name:'MyDatePolls',params:{userId:response.data[0].id}});
         })
         .catch(function(error){
