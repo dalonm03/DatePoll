@@ -157,16 +157,12 @@ app.post("/insertrespuesta", function(req, res) {
 });
 
 app.post("/modificarencuesta", function(req, res) {
-  sequelize
-    .query(
-      "UPDATE encuesta SET nombre = '" +req.body.nombre+"'+descripcion = '" +req.body.descripcion+"'+mes = '" +req.body.mes+"' WHERE (fk_idusuario = '" +
-      req.body.fk_idusuario+
-      "' )" ,
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(encuestamodif => {
-        res.send(encuestamodif);
-    });
+  console.log(req.body);
+  Poll.update({ name: req.body.name, description: req.body.description,  month:req.body.month}, {
+    where: {
+      id: req.body.id
+    }
+  });
 });
 
 
