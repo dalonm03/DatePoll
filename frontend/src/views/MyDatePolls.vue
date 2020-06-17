@@ -7,9 +7,10 @@
             <DatePollForm name="" description="" v-on:newDatePollCard="addNewDatePollCard"></DatePollForm>
           </v-col>
         </v-row>
-        
+
         <v-layout justify-center class="cardsContent" id="cardsContent"> 
         <v-flex>
+
 
           <v-container grid-list-lg>
             <v-layout row wrap>
@@ -49,13 +50,9 @@
                             </template>
                             <span>Vote</span>
                           </v-tooltip>
-                          <v-tooltip bottom>
-                            <template v-slot:activator="{on}">
-                                <v-btn icon right color="green darken-4" v-on="on"><v-icon>mdi-calendar-edit</v-icon></v-btn>
-                            </template>
-                            <span>Edit Poll</span>
-                          </v-tooltip>
+                          <DatePollEdit :card="card" v-on:editDatePollCard="updateDatePollCard"></DatePollEdit>
                         </v-card-actions>
+
 
                       </v-card>
                     </v-hover>
@@ -72,6 +69,7 @@
 
 <script>
   import DatePollForm from '../components/DatePollForm';
+  import DatePollEdit from '../components/DatePollEdit';
  // import DatePollCard from '../components/DatePollCard';
   const axios=require('axios')
   const ip='localhost'
@@ -81,6 +79,7 @@
     },
     components:{
       DatePollForm,
+      DatePollEdit,
 
     },
     data: () => ({
@@ -111,6 +110,22 @@
         });
         
       },
+
+
+      updateDatePollCard(card){
+        
+        
+        console.log(card)
+        axios.post('http://'+ip+':3000/modificarencuesta',card)
+        .then(()=>{
+         console.log("New poll updated succesfully")
+        })
+        .catch(function(error){
+          console.log(error)
+        });
+        
+      },
+
 
       deleteDatePollCard(card){
         let index=this.datePollCards.indexOf(card);
