@@ -73,7 +73,7 @@ User.init(
   
 
   name:{ 
-    type:Sequelize.STRING,
+    type:Sequelize.STRING(30),
     unique:true,
     allowNull:false
   },
