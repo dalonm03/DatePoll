@@ -80,7 +80,7 @@
   const ip='localhost'
   export default {
     props: {
-      userId:Number,
+      userId:[String,Number],
     },
     components:{
       DatePollForm,

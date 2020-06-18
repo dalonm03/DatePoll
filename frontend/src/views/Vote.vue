@@ -13,7 +13,7 @@
                         </v-row>
                         <v-row justify="center">
                             <v-col cols="8">
-                                <v-date-picker color="green darken-4" :min="nowDate" v-model="pickedDate" scrollable></v-date-picker>
+                                <v-date-picker color="green darken-4" show-current="false" :min="firstDayMonth" :max="lastDayMonth" :allowed-dates="pollMonth" v-model="pickedDate" ></v-date-picker>
                             </v-col>
                         </v-row>
                         <v-row justify="end">
@@ -32,19 +32,21 @@
 const axios=require('axios')
 const ip='localhost'
 export default {
-    data:()=>({
-        name:"",
-        nowDate:new Date().toISOString().slice(0,10),
-        pickedDate: new Date().toISOString().slice(0,10),
+    data:function(){
+        return{
+            name:"",
+            pickedDate: this.card.month+'-01',
+        }
 
 
-    }),
+    },
     props:{
-        card:Object
+        card:Object,
+        fromUser:Boolean
     },
     methods:{
         submitVote(){
-            console.log(this.card);
+            
             let vote={
                 date:this.pickedDate,
                 voterName:this.name,
@@ -54,6 +56,41 @@ export default {
             .then(()=>{
                 console.log('Submitted new vote');
             })
+        },
+        pollMonth(date){
+            let dateMonth=date.split('-');
+            let posibleMonth=this.card.month.split('-')
+            
+            if((dateMonth[0]==posibleMonth[0]) && dateMonth[1]==posibleMonth[1]){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    },
+    computed:{
+        firstDayMonth: function(){
+            return this.card.month+'-01'
+        },
+        lastDayMonth:function(){
+            let actualMonth=this.card.month.split('-')[1];
+            switch(actualMonth){
+                case '04':
+                case '06':
+                case '09':
+                case '11':
+                    return this.card.month+'-30'
+                case '02':
+
+                    var year=parseInt(this.card.month.split('-')[0])
+                    if(((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)){
+                        return this.card.month+'-29'
+                    }else{
+                        return this.card.month+'-28'
+                    }
+                default:
+                    return this.card.month+'-31';
+            }
         }
     }
 }
