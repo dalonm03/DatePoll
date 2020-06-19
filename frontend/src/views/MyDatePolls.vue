@@ -77,7 +77,7 @@
   import DatePollEdit from '../components/DatePollEdit';
  // import DatePollCard from '../components/DatePollCard';
   const axios=require('axios')
-  const ip='localhost'
+  
   export default {
     props: {
       userId:[String,Number],
@@ -104,7 +104,7 @@
           userId:this.userId,
          
         };
-        axios.post('http://'+ip+':3000/insertPoll',newPoll)
+        axios.post('http://'+this.$store.state.ip+':3000/insertPoll',newPoll)
         .then((result)=>{
          console.log("New poll inserted succesfully");
          card.id=result.data.id;
@@ -121,7 +121,7 @@
         
         
         console.log(card)
-        axios.post('http://'+ip+':3000/updatePoll',card)
+        axios.post('http://'+this.$store.state.ip+':3000/updatePoll',card)
         .then(()=>{
          console.log("New poll updated succesfully");
         })
@@ -136,14 +136,15 @@
         let index=this.datePollCards.indexOf(card);
         if(index>-1){
           let data={id:card.id}
-          axios.post('http://'+ip+':3000/deletePoll',data)
+          axios.post('http://'+this.$store.state.ip+':3000/deleteVotesOfPoll',data)
+          axios.post('http://'+this.$store.state.ip+':3000/deletePoll',data)
           this.datePollCards.splice(index,1);
         }
 
       },
 
       vote(card){
-        this.$router.push({name:'Vote',params:{card:card}});
+        this.$router.push({name:'Vote',params:{pollId:card.id}});
       }
 
     },
@@ -153,7 +154,7 @@
       let data={
         userId:this.userId
       }
-      axios.post('http://'+ip+':3000/getUserPolls',data)
+      axios.post('http://'+this.$store.state.ip+':3000/getUserPolls',data)
       .then((response)=>{
         
         this.datePollCards=response.data;

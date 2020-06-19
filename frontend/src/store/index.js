@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    exitVisible:false
+    exitVisible:false,
+    ip:'localhost'
   },
   mutations: {
     changeExitVisible(state,visible){

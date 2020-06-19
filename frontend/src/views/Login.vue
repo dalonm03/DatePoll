@@ -96,8 +96,9 @@
 
 <script>
   const axios=require('axios')
-  const ip='localhost'
+  
   export default {
+    
     data:()=>({
       username:'',
       password:'',
@@ -128,7 +129,7 @@
           password: this.password
         };
         
-        axios.post('http://'+ip+':3000/login',datos)
+        axios.post('http://'+this.$store.state.ip+':3000/login',datos)
         .then((response)=>{
           this.$store.commit('changeExitVisible',true)
           this.$router.push({name:'MyDatePolls',params:{userId:response.data[0].id}});
@@ -155,7 +156,7 @@
           if(this.registerPassword!=this.registerRepeatPassword){
             alert("The passwords don't match.")
           }else{
-            axios.post('http://'+ip+':3000/getNumberOfUsersWithName',{name:this.registerName})
+            axios.post('http://'+this.$store.state.ip+':3000/getNumberOfUsersWithName',{name:this.registerName})
             .then((response)=>{
               console.log(response.data.count)
               if(response.data.count>0){
@@ -166,7 +167,7 @@
                     name:this.registerName,
                     password:this.registerPassword
                   }
-                  axios.post('http://'+ip+':3000/insertUser',nuevoUsuario)
+                  axios.post('http://'+this.$store.state.ip+':3000/insertUser',nuevoUsuario)
                   .then(()=>{
                     console.log('Insert of user '+this.username+' was succesful');
                   })

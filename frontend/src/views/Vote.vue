@@ -4,8 +4,10 @@
             <v-col cols="12">
                 <v-card max-width="550" class="ma-auto">
                     <v-container fluid>
+                        <v-row>
                         <v-card-title><span class="headline mb-1">{{this.card.name}}</span></v-card-title>
                         <v-card-text>{{this.card.description}}</v-card-text>
+                        </v-row>
                         <v-row>
                             <v-col cols="6">
                                 <v-text-field color="green darken-4" label="Your name" v-model="name"></v-text-field>
@@ -30,19 +32,20 @@
 
 <script>
 const axios=require('axios')
-const ip='localhost'
+
 export default {
     data:function(){
         return{
             name:"",
-            pickedDate: this.card.month+'-01',
+            pickedDate:String,
+            card:Object
         }
 
 
     },
     props:{
-        card:Object,
-        fromUser:Boolean
+        pollId:[Number,String],
+        
     },
     methods:{
         submitVote(){
@@ -52,10 +55,16 @@ export default {
                 voterName:this.name,
                 pollId:this.card.id
             }
-            axios.post('http://'+ip+':3000/submitVote',vote)
+            axios.post('http://'+this.$store.state.ip+':3000/submitVote',vote)
             .then(()=>{
                 console.log('Submitted new vote');
+                if(this.fromUser){
+                    this.$router.push({name:'MyDatePolls',params:{userId:this.card.userId}});
+                }
             })
+            .catch(function(error){
+                console.log(error)
+            });
         },
         pollMonth(date){
             let dateMonth=date.split('-');
@@ -66,13 +75,40 @@ export default {
             }else{
                 return false;
             }
-        }
+        },
+        
     },
+
+    created:function(){
+      
+      axios.post('http://'+this.$store.state.ip+':3000/getPoll',{pollId:this.pollId})
+      .then((response)=>{
+          
+        this.card=response.data[0];
+        let nowDate=new Date().toISOString().slice(0,7);
+        if(nowDate==this.card.month){
+            this.pickedDate=new Date().toISOString().slice(0,10);
+        }else{
+            this.pickedDate=this.card.month+'-01';
+        }
+        console.log(this.card);
+      })
+
+    },
+
     computed:{
+
         firstDayMonth: function(){
-            return this.card.month+'-01'
+            let nowDate=new Date().toISOString().slice(0,7);
+            if(nowDate==this.card.month){
+                return new Date().toISOString().slice(0,10);
+            }else{
+                return this.card.month+'-01';
+            }
+            
         },
         lastDayMonth:function(){
+            console.log(this.card.month)
             let actualMonth=this.card.month.split('-')[1];
             switch(actualMonth){
                 case '04':
@@ -92,6 +128,7 @@ export default {
                     return this.card.month+'-31';
             }
         }
-    }
+    },
+
 }
 </script>

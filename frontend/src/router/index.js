@@ -24,7 +24,7 @@ Vue.use(VueRouter)
     component: Login
   },
   {
-    path:'/vote/:card',
+    path:'/vote/:pollId',
     name:'Vote',
     component: Vote,
     props:true,

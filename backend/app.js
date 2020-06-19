@@ -106,7 +106,20 @@ app.post("/getUserPolls", function(req, res) {
   })
 });
 
-
+app.post("/getPoll", function(req, res) {
+  console.log(res.body)
+  Poll.findAll({
+    where:{
+      id:req.body.pollId
+    }
+  })
+  .then(result=>{
+    res.send(result)
+  })
+  .catch(function(error){
+    console.log(error)
+  })
+});
 
 app.post("/getNumberOfUsersWithName",function(req,res){
 
@@ -146,7 +159,21 @@ app.post("/insertUser", function(req, res) {
 });
 
 app.post("/submitVote", function(req, res) {
-  Vote.create(req.body);
+  Vote.create(req.body)
+  .then(function(vote){
+    res.send({id:vote.id})
+  })
+  .catch(function(error){
+    console.log(error)
+  });
+});
+
+app.post("/deleteVotesOfPoll",function(req,res){
+  Vote.destroy({
+    where:{
+      pollId:req.body.id
+    }
+  })
 });
 
 app.post("/updatePoll", function(req, res) {
