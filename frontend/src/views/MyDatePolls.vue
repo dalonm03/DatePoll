@@ -32,12 +32,32 @@
                           </v-list-item>
 
                         <v-card-actions>
-                          <v-tooltip bottom>
-                            <template v-slot:activator="{on}">
-                              <v-btn icon color="green darken-4" v-on="on"><v-icon>mdi-account-multiple</v-icon></v-btn>
+                          <v-menu offset-x left>
+                            <template v-slot:activator="{on: menu, attrs}">
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{on: tooltip}">
+                                  <v-btn icon color="green darken-4"  v-bind="attrs" v-on="{...tooltip, ...menu}"><v-icon>mdi-account-multiple</v-icon></v-btn>
+                                </template>
+                                <span>Voters</span>
+                              </v-tooltip>
                             </template>
-                            <span>Users</span>
-                          </v-tooltip>
+                            
+                            <v-list>
+                              <template v-if="card.voters">
+                              <v-list-item v-for="(voter, index) in card.voters" :key="index">
+                                <v-list-item-icon>
+                                  <v-icon color="green darken-4">mdi-account</v-icon>
+                                </v-list-item-icon>                               
+                                  <v-list-item-title v-text="voter.voterName"></v-list-item-title>                                                       
+                              </v-list-item>
+                              </template>
+                              <template v-else>
+                                <v-list-item>                
+                                  <v-list-item-title>No voters yet</v-list-item-title>                                                       
+                              </v-list-item>
+                              </template>
+                            </v-list>
+                          </v-menu>
                           <v-tooltip bottom>
                             <template v-slot:activator="{on}">
                                 <v-btn icon color="green darken-4" v-on="on"><v-icon>mdi-poll</v-icon></v-btn>
@@ -50,12 +70,7 @@
                             </template>
                             <span>Vote</span>
                           </v-tooltip>
-                          <v-tooltip bottom>
-                            <template v-slot:activator="{on}">
-                              <DatePollEdit :card="card" v-on="on" v-on:editDatePollCard="updateDatePollCard"></DatePollEdit>
-                            </template>
-                            <span>Edit Poll</span>
-                          </v-tooltip>
+                            <DatePollEdit :card="card" v-on:editDatePollCard="updateDatePollCard"></DatePollEdit>
                         </v-card-actions>
 
 
@@ -75,7 +90,6 @@
 <script>
   import DatePollForm from '../components/DatePollForm';
   import DatePollEdit from '../components/DatePollEdit';
- // import DatePollCard from '../components/DatePollCard';
   const axios=require('axios')
   
   export default {
@@ -94,7 +108,6 @@
 
        addNewDatePollCard(card){
         
-        
         console.log(this.datePollCards)
         var newPoll = {
           name: card.name,
@@ -108,6 +121,7 @@
         .then((result)=>{
          console.log("New poll inserted succesfully");
          card.id=result.data.id;
+         
          this.datePollCards.push(card)
         })
         .catch(function(error){
@@ -118,8 +132,7 @@
 
 
       updateDatePollCard(card){
-        
-        
+               
         console.log(card)
         axios.post('http://'+this.$store.state.ip+':3000/updatePoll',card)
         .then(()=>{
@@ -145,6 +158,17 @@
 
       vote(card){
         this.$router.push({name:'Vote',params:{pollId:card.id}});
+      },
+
+      getVoters(card){
+        let data={id:card.id}
+        axios.post('http://'+this.$store.state.ip+':3000/getVotesOfPoll',data)
+        .then((response)=>{
+          if(response.data.length>0){
+            card.voters=response.data;
+          }
+          
+        })
       }
 
     },
@@ -158,6 +182,9 @@
       .then((response)=>{
         
         this.datePollCards=response.data;
+        for(let i=0;i<this.datePollCards.length;i++){
+          this.getVoters(this.datePollCards[i]);
+        }
         console.log(this.datePollCards)
       })
       .catch(function(error){

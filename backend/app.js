@@ -176,6 +176,17 @@ app.post("/deleteVotesOfPoll",function(req,res){
   })
 });
 
+app.post("/getVotesOfPoll",function(req,res){
+  Vote.findAll({
+    where:{
+      pollId:req.body.id
+    }
+  })
+  .then(result=>{
+    res.send(result);
+  })
+});
+
 app.post("/updatePoll", function(req, res) {
   console.log(req.body);
   Poll.update({ name: req.body.name, description: req.body.description,  month:req.body.month}, {

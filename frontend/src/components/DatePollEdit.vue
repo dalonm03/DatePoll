@@ -1,10 +1,12 @@
 <template>
-
-
-
     <v-dialog ref="dialog" max-width="600px" v-model="showForm">
-        <template v-slot:activator="{on}">
-            <v-btn icon right color="green darken-4" v-on="on"><v-icon>mdi-calendar-edit</v-icon></v-btn>
+        <template v-slot:activator="{on: dialog, attrs}">
+            <v-tooltip bottom>
+                <template v-slot:activator="{on:tooltip}">
+                    <v-btn icon right color="green darken-4" v-bind="attrs" v-on="{...tooltip, ...dialog}"><v-icon>mdi-calendar-edit</v-icon></v-btn>
+                </template>
+                <span>Edit Poll</span>
+            </v-tooltip>
         </template>
         <v-card>
             <v-card-title>
@@ -31,7 +33,6 @@
                                 :return-value.sync="pickedMonth"
                                 transition="scale-transition"
                                 offset-x
-                                
                                 right
                             >
                                 <template v-slot:activator="{ on }">
@@ -52,8 +53,7 @@
                                 </v-date-picker>
                             </v-menu>
                         </v-col>
-                    </v-row>
-                        
+                    </v-row> 
                     <v-row justify="end">
                         <v-col cols="2">
                             <v-btn text color="green darken-4" v-on:click="reset">Cancel</v-btn>
