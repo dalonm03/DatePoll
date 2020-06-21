@@ -42,7 +42,7 @@
                               </v-tooltip>
                             </template>
                             
-                            <v-list>
+                            <v-list dense>
                               <template v-if="card.voters">
                               <v-list-item v-for="(voter, index) in card.voters" :key="index">
                                 <v-list-item-icon>

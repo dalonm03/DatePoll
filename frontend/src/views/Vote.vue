@@ -27,7 +27,13 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-row align="end" justify="center" align-content="end">
+            <v-col cols=4>
+                <v-alert v-if="voteWasSubmitted" type="success">Your vote was submitted succesfully!</v-alert>
+            </v-col>
+        </v-row>
     </v-container>
+    
 </template>
 
 <script>
@@ -38,7 +44,8 @@ export default {
         return{
             name:"",
             pickedDate:String,
-            card:Object
+            card:Object,
+            voteWasSubmitted:false
         }
 
 
@@ -58,9 +65,9 @@ export default {
             axios.post('http://'+this.$store.state.ip+':3000/submitVote',vote)
             .then(()=>{
                 console.log('Submitted new vote');
-                if(this.fromUser){
-                    this.$router.push({name:'MyDatePolls',params:{userId:this.card.userId}});
-                }
+                
+                this.voteWasSubmitted=true;
+                
             })
             .catch(function(error){
                 console.log(error)
@@ -80,7 +87,7 @@ export default {
     },
 
     created:function(){
-      
+      this.$store.commit('changeExitVisible',false)
       axios.post('http://'+this.$store.state.ip+':3000/getPoll',{pollId:this.pollId})
       .then((response)=>{
           
