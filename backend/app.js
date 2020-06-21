@@ -54,7 +54,7 @@ sequelize
       primaryKey: true
     },
 
-    date: Sequelize.DATE,  
+    date: Sequelize.STRING,  
     voterName: Sequelize.STRING,
     
   

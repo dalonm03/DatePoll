@@ -60,7 +60,7 @@
                           </v-menu>
                           <v-tooltip bottom>
                             <template v-slot:activator="{on}">
-                                <v-btn icon color="green darken-4" v-on="on"><v-icon>mdi-poll</v-icon></v-btn>
+                                <v-btn icon color="green darken-4" @click="goToPollResults(card)" v-on="on"><v-icon>mdi-poll</v-icon></v-btn>
                             </template>
                             <span>Poll results</span>
                           </v-tooltip>
@@ -144,6 +144,9 @@
         
       },
 
+      goToPollResults(card){
+        this.$router.push({name:'Results',params:{pollId:card.id}});
+      },
 
       deleteDatePollCard(card){
         let index=this.datePollCards.indexOf(card);

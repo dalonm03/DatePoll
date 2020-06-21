@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import MyDatePolls from '../views/MyDatePolls.vue'
 import Login from '../views/Login.vue'
 import Vote from '../views/Vote.vue'
+import Results from '../views/Results.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,12 @@ Vue.use(VueRouter)
     name:'Vote',
     component: Vote,
     props:true,
+  },
+  {
+    path:'/results/:pollId',
+    name:'Results',
+    component: Results,
+    props:true
   }
   
 ]
