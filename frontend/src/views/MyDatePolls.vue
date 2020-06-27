@@ -146,7 +146,7 @@
         .then((result)=>{
          console.log("New poll inserted succesfully");
          card.id=result.data.id;
-         card.link=this.$store.state.ip+':8080/vote/'+card.id
+         card.link=this.$store.state.ip+'/#/vote/'+card.id
          
          this.datePollCards.push(card)
         })
@@ -218,7 +218,7 @@
         
         this.datePollCards=response.data;
         for(let i=0;i<this.datePollCards.length;i++){
-          this.datePollCards[i].link=this.$store.state.ip+':8080/vote/'+this.datePollCards[i].id
+          this.datePollCards[i].link=this.$store.state.ip+'/#/vote/'+this.datePollCards[i].id
           this.getVoters(this.datePollCards[i]);
         }
         console.log(this.datePollCards)
