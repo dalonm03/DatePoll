@@ -29,7 +29,7 @@
         </v-row>
         <v-row align="end" justify="center" align-content="end">
             <v-col cols=4>
-                <v-alert v-if="voteWasSubmitted" type="success">Your vote was submitted succesfully!</v-alert>
+                <v-alert v-if="voteWasSubmitted" type="success">Your vote was submitted succesfully! <span class="resultsLink" @click="goToResults">See results?</span></v-alert>
             </v-col>
         </v-row>
     </v-container>
@@ -57,6 +57,15 @@ export default {
     methods:{
         submitVote(){
             
+            axios.get('https://api.ipify.org?format=jsonp&callback=?',)
+            .then((response)=>{
+                console.log(response);
+                
+            })
+            .catch(function(error){
+                console.log(error)
+            });
+
             let vote={
                 date:this.pickedDate,
                 voterName:this.name,
@@ -83,6 +92,10 @@ export default {
                 return false;
             }
         },
+
+        goToResults(){
+            this.$router.push({name:'Results',params:{pollId:this.pollId}});
+        }
         
     },
 
@@ -139,3 +152,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.resultsLink{
+  text-decoration:underline;
+  cursor: pointer;
+}
+</style>

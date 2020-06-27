@@ -71,6 +71,32 @@
                             <span>Vote</span>
                           </v-tooltip>
                             <DatePollEdit :card="card" v-on:editDatePollCard="updateDatePollCard"></DatePollEdit>
+                          <v-menu offset-x right :close-on-content-click=false>
+                            <template v-slot:activator="{on: menu, attrs}">
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{on: tooltip}">
+                                  <v-btn icon color="green darken-4"  v-bind="attrs" v-on="{...tooltip, ...menu}"><v-icon>mdi-share-variant</v-icon></v-btn>
+                                </template>
+                                <span>Share</span>
+                              </v-tooltip>
+                            </template>
+                            <v-list>
+                              <v-list-item>
+                                <v-list-item-title>
+                                  <v-text-field readonly color="green darken-4" :id="card.link" :value="card.link">
+                                    <template v-slot:append-outer>
+                                      <v-tooltip bottom>
+                                        <template v-slot:activator="{on}">
+                                          <v-btn icon color="green darken-4" v-on="on" @click="copyToClipboard(card)"><v-icon>mdi-content-copy</v-icon></v-btn>
+                                        </template>
+                                        <span>Copy to clipboard</span>
+                                      </v-tooltip>
+                                    </template>
+                                  </v-text-field>
+                                </v-list-item-title>
+                              </v-list-item>
+                            </v-list>
+                          </v-menu>
                         </v-card-actions>
 
 
@@ -113,7 +139,6 @@
           name: card.name,
           description: card.description,
           month: card.month,
-          isOpen:true,
           userId:this.userId,
          
         };
@@ -121,6 +146,7 @@
         .then((result)=>{
          console.log("New poll inserted succesfully");
          card.id=result.data.id;
+         card.link=this.$store.state.ip+':8080/vote/'+card.id
          
          this.datePollCards.push(card)
         })
@@ -172,6 +198,12 @@
           }
           
         })
+      },
+
+      copyToClipboard(card){
+        let copyText=document.getElementById(card.link)
+        copyText.select();
+        document.execCommand("copy");
       }
 
     },
@@ -186,6 +218,7 @@
         
         this.datePollCards=response.data;
         for(let i=0;i<this.datePollCards.length;i++){
+          this.datePollCards[i].link=this.$store.state.ip+':8080/vote/'+this.datePollCards[i].id
           this.getVoters(this.datePollCards[i]);
         }
         console.log(this.datePollCards)

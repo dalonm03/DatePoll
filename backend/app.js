@@ -38,7 +38,6 @@ sequelize
     name: Sequelize.STRING,
     description: Sequelize.STRING,
     month: Sequelize.STRING,
-    isOpen: Sequelize.BOOLEAN,
     
    
   },
@@ -144,7 +143,7 @@ app.post("/insertPoll", function(req, res) {
   });
 });
 
-app.post("/deletePoll",function(req,res){ //para borrar una poll primero habrá que borrar todos los votes asociados a esa poll
+app.post("/deletePoll",function(req,res){ 
 
   Poll.destroy({
     where:{
@@ -213,17 +212,6 @@ app.post("/login", function(req, res) {
   });
 });
 
-
-app.post("/modificabierto", function(req, res) {
-  sequelize
-    .query(
-      "UPDATE encuesta SET abierto = '" +req.body.abierto+"')" ,
-      { type: sequelize.QueryTypes.SELECT }
-    )
-    .then(abiertomodif => {
-        res.send(abiertomodif);
-    });
-});
 
 app.listen(3000,function(){
   console.log('Listening on port 3000')
